@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
@@ -25,7 +25,7 @@ def vive_world():
         try:
             (translation, rotation) = listener.lookupTransform('map', 'vive_world', rospy.Time(0))
             if frame_generated is False:
-                print ""
+                print("")
                 frame_generated = True
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             sys.stdout.write('.') 
