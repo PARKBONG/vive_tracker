@@ -17,23 +17,36 @@ def float_list_publisher():
 
     # Set the publishing rate
     rate = rospy.Rate(90)
-
+    print("start to publish nZ euler")
+    print("topic name : tracker_pose")
+    print("node name : float_list_publisher")
     while not rospy.is_shutdown():
-        # Create a Float32MultiArray message object
+        ##### Create a Float32MultiArray message object
+        msg = Float32MultiArray()
+
+        ##### get device pose
         b = v.devices["tracker_1"].get_pose_quaternion()
+
+        ##### to the local pose
         bong  = quaternion_multiply(b[3:], [-0.7071068, 0, 0, 0.7071068])
         
+        ##### for euler publish
+        o = R.from_quat(bong.tolist()).as_euler("YXZ", degrees = False).tolist()
 
+        ##### ##### for nZ
+        b[2] = -b[2]
+        o[2] = -o[2]
 
-        msg = Float32MultiArray()
-        msg.data = b[:3] + bong.tolist()
+        ##### publish
+        # msg.data = b[:3] + bong.tolist() # for quat publish
+        msg.data = b[:3] + o # for nZ euler publish
 
         # --------
-        r = R.from_quat(bong)
+        # r = R.from_quat(bong)
 
-        rr = euler_from_matrix(r.as_matrix())
+        # rr = euler_from_matrix(r.as_matrix())
         # print("1 : " , rr)
-        print(bong.tolist())
+        # print(bong.tolist())
         # print("2 : " , r.as_euler("XYZ"))
 
         # r = r.as_matrix()

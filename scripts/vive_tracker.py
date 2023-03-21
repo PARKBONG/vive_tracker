@@ -110,7 +110,8 @@ def vive_tracker():
                 inv_odom.header.stamp = time
                 inv_odom.header.frame_id = "vive_world"
                 # set the position
-                [inv_qx, inv_qy, inv_qz, inv_qw] = tf.transformations.quaternion_multiply([qx, qy, qz, qw], [-0.707, 0.707, 0, 0])
+                # [inv_qx, inv_qy, inv_qz, inv_qw] = tf.transformations.quaternion_multiply([qx, qy, qz, qw], [-0.707, 0.707, 0, 0])
+                [inv_qx, inv_qy, inv_qz, inv_qw] = tf.transformations.quaternion_multiply([qx, qy, qz, qw], [0, 0, 0, 1])
                 q = Quaternion(inv_qx,inv_qy,inv_qz,inv_qw)
                 # pdb.set_trace()
                 # q_new = q * q_inv
